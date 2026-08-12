@@ -8,9 +8,12 @@ It is consumed by:
 
 - **[`sr-chrome-extension`](https://github.com/a16z-speedrun/sr-chrome-extension)** — the Demo Day new-tab countdown
 - **[`speedrun-statusline`](https://github.com/a16z-speedrun/speedrun-statusline)** — the Claude Code status line
+- **[`sr-raise`](https://github.com/a16z-speedrun/sr-raise)** — the fundraising coach, which reads
+  `progress_day` + `demo_day` to work out which phase of the raise a founder is in
+  and scope its advice to that phase
 
-Both fetch [`cohort.json`](./cohort.json) (raw, public, no auth), cache it
-locally, and **fall back to their own baked-in defaults** if the fetch fails —
+Each fetches [`cohort.json`](./cohort.json) (raw, public, no auth), caches it
+locally, and **falls back to its own baked-in defaults** if the fetch fails —
 so a network hiccup never breaks a countdown.
 
 ## `cohort.json`
@@ -18,10 +21,12 @@ so a network hiccup never breaks a countdown.
 ```jsonc
 {
   "cohorts": {
-    "speedrun": {                              // Speedrun Demo Day (founder-facing)
+    "speedrun": {                                 // Speedrun Demo Day (founder-facing)
       "cohort": "SR007",
       "milestone": "Demo Day",
-      "demo_day": "2026-10-06T09:00:00-07:00", // ISO-8601 with explicit offset
+      "progress_day": "2026-09-08T09:00:00-07:00", // optional; splits the pre-Demo-Day
+                                                   // stretch into "build" and "ramp"
+      "demo_day": "2026-10-06T09:00:00-07:00",     // ISO-8601 with explicit offset
       "date_label": "October 6, 2026"
     },
     "alpha": {                                 // Speedrun Alpha Showcase
@@ -38,16 +43,24 @@ so a network hiccup never breaks a countdown.
 ```
 
 Each consumer reads only what it needs: the extension reads both cohorts (it has
-a toggle); the status line reads only `cohorts.speedrun` plus `statusline.latest_version`.
+a toggle); the status line reads only `cohorts.speedrun` plus `statusline.latest_version`;
+sr-raise reads `progress_day` + `demo_day`.
 
-**Always use an explicit UTC offset** on `demo_day` (e.g. `-07:00` for PDT) so the
+**Always use an explicit UTC offset** on every date (e.g. `-07:00` for PDT) so the
 countdown is identical on every machine in every timezone.
+
+`progress_day` is **optional**. Where it is set, it marks the point a cohort turns
+from building toward the raise, so the two halves of the run-up can be told apart —
+before it, "stay heads-down"; after it, "start the sequencing arc." A cohort without
+it simply has no such split, and the field is absent for cohorts whose program has no
+equivalent milestone (Alpha, whose milestone is a Showcase).
 
 ## How to make a change
 
 | To… | Edit | Effect |
 |---|---|---|
-| Re-date a cohort | the cohort's `demo_day` / `date_label` | Both surfaces pick it up automatically (extension on next load, status line within ~6h) |
+| Re-date a cohort | the cohort's `demo_day` / `date_label` | Consumers pick it up automatically (extension on next load, status line within ~6h) |
+| Move Progress Day | the cohort's `progress_day` | sr-raise re-scopes which phase of advice founders get |
 | Add the next cohort | a new key under `cohorts`, or repoint `speedrun` | Same |
 | Push a status line update | `statusline.latest_version` | Installs surface the `⬆ update` nudge |
 
