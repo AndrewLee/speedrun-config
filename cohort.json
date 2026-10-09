@@ -3,14 +3,14 @@
     "speedrun": {
       "cohort": "SR007",
       "milestone": "Demo Day",
-      "progress_day": "2026-09-08T09:00:00-07:00",
+      "progress_day": "2027-04-13T09:00:00-07:00",
       "demo_day": "2026-10-06T09:00:00-07:00",
       "date_label": "October 6, 2026"
     },
     "alpha": {
       "cohort": "Alpha",
       "milestone": "Showcase",
-      "demo_day": "2026-08-04T09:00:00-07:00",
+      "demo_day": "2027-04-13T09:00:00-07:00",
       "date_label": "August 4, 2026"
     }
   },
