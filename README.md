@@ -47,7 +47,7 @@ so a network hiccup never breaks a countdown.
     "SR008": {
       "cohort": "SR008",
       "milestone": "Demo Day",
-      "kickoff": "2027-02-01T09:00:00-08:00",      // optional; the day the cohort starts
+      "kickoff": "2027-02-02T09:00:00-08:00",      // optional; the day the cohort starts
       "progress_day": "2027-03-17T09:00:00-07:00",
       "demo_day": "2027-04-13T09:00:00-07:00",
       "date_label": "April 13, 2027"
