@@ -32,7 +32,7 @@ so a network hiccup never breaks a countdown.
     "alpha": {                                     // Speedrun Alpha Showcase
       "cohort": "Alpha",
       "milestone": "Showcase",
-      "demo_day": "2027-03-01T09:00:00-07:00",
+      "demo_day": "2027-03-01T09:00:00-08:00",
       "date_label": "March 1, 2027"
     },
     "SR007": {                                     // one entry per Speedrun cohort, keyed by
@@ -51,6 +51,12 @@ so a network hiccup never breaks a countdown.
       "progress_day": "2027-03-17T09:00:00-07:00",
       "demo_day": "2027-04-13T09:00:00-07:00",
       "date_label": "April 13, 2027"
+    },
+    "SR009": {                                     // a cohort the program has only dated
+      "cohort": "SR009",                           // Demo Day for; kickoff + progress_day
+      "milestone": "Demo Day",                     // follow when they are set
+      "demo_day": "2027-10-05T09:00:00-07:00",
+      "date_label": "October 5, 2027"
     }
   },
   "statusline": {
@@ -67,7 +73,7 @@ for an SR008 company) and reads `cohorts.speedrun` only for an asker with no coh
 on file. No consumer iterates every key under `cohorts`, so adding a per-cohort entry
 is invisible to the extension and the status line.
 
-**Always use an explicit UTC offset** on every date (e.g. `-07:00` for PDT) so the
+**Always use an explicit UTC offset** on every date (`-07:00` for PDT, `-08:00` for PST -- Pacific is on PST from early November to mid-March) so the
 countdown is identical on every machine in every timezone.
 
 `progress_day` is **optional**. Where it is set, it marks the point a cohort turns
